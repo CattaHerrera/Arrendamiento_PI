@@ -5,13 +5,12 @@ class PropertyC extends CI_Controller
     public function show(){
 
         $this->load->model('PropertyM');
-        $data['property'] = $this->PropertyM->getPropertys();
+        $data['propiedades'] = $this->PropertyM->getPropertys();
 
-        print "Si jala el controlador de propiedad xd";
         $this->load->view('Property/head.php');
         $this->load->view('Property/menu.php');
         $this->load->view('Property/footer.php');
-        $this->load->view('Property/listaPropiedades.php', $data);
+        $this->load->view('propiedades/listaPropiedades.php', $data);
       
     }
 
@@ -21,7 +20,7 @@ class PropertyC extends CI_Controller
 
         $this->load->view('Property/menu.php');
         $this->load->view('Property/head.php');
-        $this->load->view('property/detalleProperty.php',$data);
+        $this->load->view('propiedades/detalleProperty.php',$data);
         $this->load->view('Property/footer.php');
     }
 
@@ -33,6 +32,7 @@ class PropertyC extends CI_Controller
     }
 
     public function intertarProperty($IdProperty){
+        $this->load->model('PropertyM');
         $this->load->helper(array('form','url'));
             $this->load->library('form_validation');
              
@@ -41,14 +41,37 @@ class PropertyC extends CI_Controller
             {
                 $this->load->view('Property/menu.php');
                 $this->load->view('property/head.php');
-                $this->load->view('propiedad/insertarProperty');
+                $this->load->view('propiedades/insertarProperty');
                 $this->load->view('Property/footer.php');
             }
-            else
+            else 
             {
-
+                $this->PropertyM->insertarProperty();
+                redirect(base_url('index.php/PropertyC/show'),'refresh');
             }
     }
+
+    public function actualizarProperty($IdProperty){
+		$this->load->model('PropertyM');
+		$data['property'] = $this->Proprety->getProperty($IdProperty);
+
+		$this->load->helper(array('form', 'url'));
+
+                $this->load->library('form_validation');
+                $this->form_validation->set_rules('Nombre', 'Nombre', 'required');
+                if ($this->form_validation->run() == FALSE)
+                {		
+                		$this->load->view('Property/head.php');
+						$this->load->view('Property/menu.php');
+                        $this->load->view('propiedades/actualizarProperty',$data);
+                        $this->load->view('Property/footer.php');
+                }
+                else
+                {
+                       $this->PropertyM->updateProducto($IdProperty);
+                       redirect(base_url('index.php/PropertyC/show'),'refresh');
+                }
+	}
 
     public function getPropertys($IdProperty){
         $this->load->view('Property/head.php');

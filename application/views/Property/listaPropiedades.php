@@ -1,7 +1,12 @@
 <div class="container">
+
+<a class="btn btn-success" href="<?=base_url('index.php/PropertyC/insertarProperty') ?>">Agregar Producto</a>
+
     <a class="btn btn-success" href="<?=base_url('index.php/PropertyC/insertarProperty')?>">Agregar Propiedad</a>
+    
     <table class="table table-striped table-bordered">
         <thead>
+            <tr>
             <th>Id Propiedad</th>
             <th>Id Arrendador</th>
             <th>Nombre</th>
@@ -14,9 +19,10 @@
             <th>Tipo Propiedad</th>
             <th>Foto</th>
             <th>Acciones</th>
+            </tr>
         </thead>
         <tbody>
-            <?php foreach ($property as $key): ?>
+            <?php foreach ($propiedades as $key): ?>
                 <tr>
                     <td><?=$key->IdPropiedad ?></td>
                     <td><?=$key->IdArrendador ?></td>
@@ -31,9 +37,13 @@
                     <td><?=$key->Foto ?></td>
                     <td><a class="btn btn-success" href="<?=base_url('index.php/PropertyC/detalleProperty/').
                     $key->IdProperty ?>" >Ver detalle</a></td>
-                    <td><a class="btn btn-success" href="<?=base_url('index.php/PropertyC/borrarProperty/').
+                    
+                    <td><a class="btn btn-danger" href="<?=base_url('index.php/PropertyC/borrarProperty/').
                     $key->IdProperty ?>" >Borrar</a></td>
-                </tr>
+                
+                <td><a class="btn btn-danger" href="<?=base_url('index.php/PropertyC/actualizarProperty/').
+                $key->IdProperty ?>">Editar</a></td>
+            </tr>
             <?php endforeach?>
         </tbody>
     </table>
